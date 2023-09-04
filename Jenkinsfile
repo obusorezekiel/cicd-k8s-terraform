@@ -6,6 +6,11 @@ pipeline {
 
     agent any 
 
+    environment {
+        registry = "obusorezekiel/testingjava"
+        registryCredential = 'docker-creds'
+    }
+
     stages {
         stage('Git Checkout'){
             steps {
@@ -28,10 +33,10 @@ pipeline {
         stage('Docker Build & Push'){
             steps {
                 script {
-                    withDockerRegistry(credentialsId:'b331a19b-8da6-4f64-896d-b9c75c58d1ec', toolName: 'docker')
-
-                    sh 'docker build -t obusorezekiel/testingjava:latest .'
-                    sh 'docker push obusorezekiel/testingjava:latest'
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                    }
 
                 }
             }

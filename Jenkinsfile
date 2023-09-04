@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         registry = "obusorezekiel/testingjava"
-        registryCredential = 'docker-cred'
+        registryCredential = 'b331a19b-8da6-4f64-896d-b9c75c58d1ec'
     }
 
     stages {
